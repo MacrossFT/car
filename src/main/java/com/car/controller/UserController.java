@@ -2,6 +2,7 @@ package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.mapper.UserMapper;
 import com.car.po.UserPO;
@@ -30,6 +31,7 @@ public class UserController {
         if (user != null) {
             return new PackResult<>(user.getPermission());
         } else {
+//            throw new BizException("用户名或密码错误，请稍后再试");
             return new PackResult<>(false, "用户名或密码错误，请稍后再试");
         }
     }
@@ -37,6 +39,15 @@ public class UserController {
     @PostMapping("add")
     @ResponseBody
     public PackResult<Boolean> add(@RequestBody UserPO userPO) {
+        LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotEmpty(userPO.getName()), UserPO::getName, userPO.getName());
+        Integer count = userMapper.selectCount(queryWrapper);
+        if (count > 0) {
+//            throw new BizException("用户名已存在");
+        }
+
+        List<UserPO> userPOS = userMapper.selectList(queryWrapper);
+
         // 1 管理员 2普通用户
         userPO.setPermission("2");
         userPO.setRegTime(new Date());
