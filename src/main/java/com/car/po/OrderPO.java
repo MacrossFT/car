@@ -13,9 +13,9 @@ public class OrderPO {
      */
     private String userName;
 
-    private String userId;
+    private Long userId;
 
-    private String carId;
+    private Long carId;
 
     /**
      * 汽车名称

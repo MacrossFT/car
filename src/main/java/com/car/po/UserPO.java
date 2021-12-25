@@ -9,7 +9,7 @@ import java.util.Date;
 @TableName("user")
 public class UserPO {
 
-    private int id ;
+    private Long id ;
 
     /**
      * 用户名

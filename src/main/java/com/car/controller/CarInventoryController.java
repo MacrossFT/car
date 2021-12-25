@@ -2,6 +2,7 @@ package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.car.common.PackResult;
+import com.car.dto.CarInventoryDTO;
 import com.car.mapper.CarMapper;
 import com.car.po.CarPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,52 +11,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @menu 汽车管理
+ * @menu 车库存管理
  */
 @RestController
-@RequestMapping("car/car-manage")
-public class CarController {
+@RequestMapping("car/car-inventory")
+public class CarInventoryController {
 
     @Autowired
     private CarMapper carMapper;
 
     /**
-     * 新增汽车 只传name和remark
-     * @param carPO
-     * @return
-     */
-    @PostMapping("add")
-    @ResponseBody
-    public PackResult<Boolean> add(@RequestBody CarPO carPO) {
-        carPO.setNumber(0);
-        carMapper.insert(carPO);
-        return new PackResult<>();
-    }
-
-    /**
-     * 删除汽车
-     * @param id
-     * @return
-     */
-    @PostMapping("delete")
-    @ResponseBody
-    public PackResult<Boolean> delete(@RequestBody Long id) {
-        carMapper.deleteById(id);
-        return new PackResult<>();
-    }
-
-    /**
-     * 编辑汽车
-     * 编辑汽车：传id name remark
-     * @param carPO
+     * 编辑汽车库存
+     * 修改汽车库存：传id number amount
+     * @param dto
      * @return
      */
     @PostMapping("update")
     @ResponseBody
-    public PackResult<Boolean> update(@RequestBody CarPO carPO) {
-        CarPO carPO1 = carMapper.selectById(carPO.getId());
-        carPO1.setName(carPO.getName());
-        carPO1.setRemark(carPO.getRemark());
+    public PackResult<Boolean> update(@RequestBody CarInventoryDTO dto) {
+        CarPO carPO1 = carMapper.selectById(dto.getId());
+        carPO1.setAmount(dto.getAmount());
+        carPO1.setNumber(dto.getNumber());
 
         carMapper.updateById(carPO1);
 
@@ -63,10 +39,10 @@ public class CarController {
     }
 
     /**
-     * 汽车信息展示
+     * 库存展示
      * @return
      */
-    @GetMapping("select")
+    @PostMapping("select")
     @ResponseBody
     public PackResult<CarPO> select() {
         LambdaQueryWrapper<CarPO> queryWrapper = new LambdaQueryWrapper<>();

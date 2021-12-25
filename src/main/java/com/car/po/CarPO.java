@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("car")
+@TableName("repair")
 public class CarPO {
 
     /**
@@ -16,7 +16,7 @@ public class CarPO {
     /**
      * 数量
      */
-    private int number;
+    private Integer number;
 
     /**
      * 价格
