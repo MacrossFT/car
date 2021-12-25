@@ -15,8 +15,13 @@ public class UserPO {
 
     private String password;  //密码
 
-    private int permission;    //角色
+    private String permission;   //角色
 
     //注册时间
     private Date regTime;
+
+    /**
+     * 备注
+     */
+    private String remark;
 }

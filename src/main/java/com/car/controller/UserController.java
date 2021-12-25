@@ -22,15 +22,15 @@ public class UserController {
 
     @PostMapping("login")
     @ResponseBody
-    public PackResult<Boolean> login(@RequestBody UserPO userPO) {
+    public PackResult<String> login(@RequestBody UserPO userPO) {
         LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(UserPO::getName, userPO.getName());
         queryWrapper.eq(UserPO::getPassword, userPO.getPassword());
-        Integer count = userMapper.selectCount(queryWrapper);
-        if (count > 0) {
-            return new PackResult<Boolean>();
+        UserPO user = userMapper.selectOne(queryWrapper);
+        if (user != null) {
+            return new PackResult<>(user.getPermission());
         } else {
-            return new PackResult<Boolean>(false, "用户名或密码错误，请稍后再试");
+            return new PackResult<>(false, "用户名或密码错误，请稍后再试");
         }
     }
 
@@ -38,7 +38,7 @@ public class UserController {
     @ResponseBody
     public PackResult<Boolean> add(@RequestBody UserPO userPO) {
         // 1 管理员 2普通用户
-        userPO.setPermission(2);
+        userPO.setPermission("2");
         userPO.setRegTime(new Date());
         int insert = userMapper.insert(userPO);
         return new PackResult<>();
@@ -57,6 +57,7 @@ public class UserController {
         UserPO userPO1 = userMapper.selectById(userPO.getId());
 
         userPO1.setPassword(userPO.getPassword());
+        userPO1.setRemark(userPO.getRemark());
         userMapper.updateById(userPO1);
 
         return new PackResult<>();
