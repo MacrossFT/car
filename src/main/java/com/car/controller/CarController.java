@@ -5,20 +5,25 @@ import com.car.common.PackResult;
 import com.car.mapper.CarMapper;
 import com.car.po.CarPO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("car/car-manage/")
+/**
+ * @menu 汽车管理
+ */
+@RestController
+@RequestMapping("car/car-manage")
 public class CarController {
 
     @Autowired
     private CarMapper carMapper;
 
-
+    /**
+     *
+     * @param carPO
+     * @return
+     */
     @PostMapping("add")
     @ResponseBody
     public PackResult<Boolean> add(@RequestBody CarPO carPO) {
@@ -46,6 +51,10 @@ public class CarController {
         return new PackResult<>();
     }
 
+    /**
+     * 汽车信息展示
+     * @return
+     */
     @PostMapping("select")
     @ResponseBody
     public PackResult<CarPO> select() {

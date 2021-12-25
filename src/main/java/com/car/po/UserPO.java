@@ -9,15 +9,28 @@ import java.util.Date;
 @TableName("user")
 public class UserPO {
 
-    private int id ;     //id
+    private int id ;
 
-    private String name;  //姓名
+    /**
+     * 用户名
+     */
+    private String name;
 
-    private String password;  //密码
+    /**
+     * 密码
+     */
+    private String password;
 
-    private String permission;   //角色
+    /**
+     * 角色权限
+     * 1：代表管理员
+     * 2：代表普通用户
+     */
+    private String permission;
 
-    //注册时间
+    /**
+     * 注册时间
+     */
     private Date regTime;
 
     /**

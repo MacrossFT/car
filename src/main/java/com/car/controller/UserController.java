@@ -7,15 +7,13 @@ import com.car.common.PackResult;
 import com.car.mapper.UserMapper;
 import com.car.po.UserPO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
-@RestController("car/user/")
+@RestController
+@RequestMapping("car/user/")
 public class UserController {
 
     @Autowired
@@ -23,13 +21,13 @@ public class UserController {
 
     @PostMapping("login")
     @ResponseBody
-    public PackResult<String> login(@RequestBody UserPO userPO) {
+    public PackResult<UserPO> login(@RequestBody UserPO userPO) {
         LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(UserPO::getName, userPO.getName());
         queryWrapper.eq(UserPO::getPassword, userPO.getPassword());
         UserPO user = userMapper.selectOne(queryWrapper);
         if (user != null) {
-            return new PackResult<>(user.getPermission());
+            return new PackResult<>(user);
         } else {
 //            throw new BizException("用户名或密码错误，请稍后再试");
             return new PackResult<>(false, "用户名或密码错误，请稍后再试");

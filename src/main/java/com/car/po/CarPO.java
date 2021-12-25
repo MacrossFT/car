@@ -23,6 +23,9 @@ public class CarPO {
      */
     private String amount;
 
+    /**
+     * 车辆描述信息
+     */
     private String remark;
 
     private int id;

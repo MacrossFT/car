@@ -6,12 +6,14 @@ import com.car.mapper.OrderMapper;
 import com.car.po.OrderPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController("car/order")
+@RestController
+@RequestMapping("car/order")
 public class OrderController {
 
     @Autowired
@@ -36,5 +38,7 @@ public class OrderController {
 
         return new PackResult<>();
     }
+
+
 
 }
