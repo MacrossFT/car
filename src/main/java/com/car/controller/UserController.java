@@ -38,6 +38,7 @@ public class UserController {
         UserPO user = userMapper.selectOne(queryWrapper);
         if (user != null) {
             session.setAttribute("user", user);
+            user.setPassword(null);
             return new PackResult<>(user);
         } else {
 //            throw new BizException("用户名或密码错误，请稍后再试");
