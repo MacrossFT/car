@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     public PackResult errorHandler(Exception e) {
+        System.out.print(e);
         return PackResult.fail("系统异常");
     }
 
