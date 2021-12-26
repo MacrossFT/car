@@ -37,8 +37,8 @@ public class UserController {
         queryWrapper.eq(UserPO::getPassword, userPO.getPassword());
         UserPO user = userMapper.selectOne(queryWrapper);
         if (user != null) {
-            session.setAttribute("user", user);
             user.setPassword(null);
+            session.setAttribute("user", user);
             return new PackResult<>(user);
         } else {
 //            throw new BizException("用户名或密码错误，请稍后再试");
