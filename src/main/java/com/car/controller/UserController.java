@@ -17,7 +17,7 @@ import java.util.List;
  * @menu 用户管理
  */
 @RestController
-@RequestMapping("car/user/")
+@RequestMapping("car/user")
 public class UserController {
 
     @Autowired

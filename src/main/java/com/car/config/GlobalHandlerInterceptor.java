@@ -12,7 +12,10 @@ public class GlobalHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        //公共处理
+        if (request.getRequestURI().contains("/login")) {
+            return true;
+        }
+//        公共处理
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
             throw new BizException("请先登录");

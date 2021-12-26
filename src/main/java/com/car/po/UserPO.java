@@ -1,5 +1,6 @@
 package com.car.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -31,6 +32,7 @@ public class UserPO {
     /**
      * 注册时间
      */
+    @TableField("regTime")
     private Date regTime;
 
     /**

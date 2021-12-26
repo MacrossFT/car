@@ -1,5 +1,6 @@
 package com.car.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -12,21 +13,25 @@ public class RepairPO {
     /**
      * 订单ID
      */
+    @TableField("orderId")
     private Long orderId;
 
     /**
      * 用户ID
      */
-    private Long UserId;
+    @TableField("userId")
+    private Long userId;
 
     /**
      * 用户名称
      */
+    @TableField("userName")
     private String userName;
 
     /**
      * 车辆名称
      */
+    @TableField("carName")
     private String carName;
 
     /**
@@ -37,6 +42,7 @@ public class RepairPO {
     /**
      * 处理状态
      */
+    @TableField("dealStatus")
     private String dealStatus;
 
     /**
