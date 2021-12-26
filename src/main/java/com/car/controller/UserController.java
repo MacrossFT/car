@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.car.common.BizException;
 import com.car.common.PackResult;
+import com.car.common.UserContextInfo;
 import com.car.mapper.UserMapper;
 import com.car.po.UserPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class UserController {
     /**
      * 登陆接口 只传name和password
      * 返回值权限取 permission
+     *
      * @param userPO
      * @return
      */
@@ -48,20 +50,35 @@ public class UserController {
     }
 
     /**
+     * 获取用户信息接口
+     *
+     * @return
+     */
+    @RequestMapping("getUserInfo")
+    @ResponseBody
+    private PackResult<UserPO> getUserInfo() {
+        UserPO user = UserContextInfo.getInstance().getUser();
+        return new PackResult<>(user);
+    }
+
+
+    /**
      * 退出登陆
+     *
      * @param session
      * @return
      */
     @RequestMapping("logout")
-    public ModelAndView logout(HttpSession session){
+    public ModelAndView logout(HttpSession session) {
         session.removeAttribute("user");
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login.html");
-        return mv ;
+        return mv;
     }
 
     /**
      * 注册接口 只传name和password
+     *
      * @param userPO
      * @return
      */
@@ -86,6 +103,7 @@ public class UserController {
 
     /**
      * 删除用户
+     *
      * @param id
      * @return
      */
@@ -98,6 +116,7 @@ public class UserController {
 
     /**
      * 更新密码 只传id，password
+     *
      * @param userPO
      * @return
      */
@@ -115,6 +134,7 @@ public class UserController {
 
     /**
      * 用户列表展示
+     *
      * @return
      */
     @PostMapping("select")
