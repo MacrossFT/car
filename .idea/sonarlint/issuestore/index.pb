@@ -17,8 +17,6 @@ W
 ,src/main/java/com/car/common/PackResult.java,4\e\4e6587b7c750e72c2fa065c3b65fc37ffb3a9bab
 ^
 .src/main/java/com/car/common/BizException.java,9\6\964ffa330fe7341568e7304b8124307d9106e34c
-^
-.src/main/java/com/car/dto/CarInventoryDTO.java,0\5\052cf291fca30090025ccc7ae505684a4c97b4cd
 a
 1src/main/java/com/car/common/UserContextInfo.java,d\5\d5ecfcbfb2392c8553b8bcfb644e9916ac0840a4
 ^

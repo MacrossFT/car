@@ -1,8 +1,5 @@
 package com.car.dto;
 
-import lombok.Data;
-
-@Data
 public class CarInventoryDTO {
 
     /**
@@ -19,4 +16,28 @@ public class CarInventoryDTO {
      * 车辆id
      */
     private int id;
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }
