@@ -66,7 +66,7 @@ public class CarController {
      * 汽车信息展示
      * @return
      */
-    @GetMapping("select")
+    @RequestMapping("select")
     @ResponseBody
     public PackResult<CarPO> select() {
         LambdaQueryWrapper<CarPO> queryWrapper = new LambdaQueryWrapper<>();
