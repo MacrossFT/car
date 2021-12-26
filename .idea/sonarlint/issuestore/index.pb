@@ -1,0 +1,25 @@
+
+9
+	README.md,8\e\8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
+W
+'src/main/java/com/car/util/MD5Util.java,9\7\9738a37a4cefcfa633ac228b04ecbc3f717afbb0
+^
+.src/test/java/com/car/CarApplicationTests.java,1\b\1bcc87766826ec8c13e2ebba1331dfa0c485b628
+4
+mvnw,5\d\5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d
+8
+mvnw.cmd,1\f\1f1763f358c257ea3515417352b82b0165647ad1
+\
+,src/main/java/com/car/mapper/UserMapper.java,a\a\aa11f17da72e98326f2e5563a48efe60d134bf08
+]
+-src/main/java/com/car/mapper/OrderMapper.java,6\5\657413872c896edf447c5effa6dc60524cda52fa
+\
+,src/main/java/com/car/common/PackResult.java,4\e\4e6587b7c750e72c2fa065c3b65fc37ffb3a9bab
+^
+.src/main/java/com/car/common/BizException.java,9\6\964ffa330fe7341568e7304b8124307d9106e34c
+^
+.src/main/java/com/car/dto/CarInventoryDTO.java,0\5\052cf291fca30090025ccc7ae505684a4c97b4cd
+a
+1src/main/java/com/car/common/UserContextInfo.java,d\5\d5ecfcbfb2392c8553b8bcfb644e9916ac0840a4
+^
+.src/main/java/com/car/mapper/RepairMapper.java,1\2\127e574ed6bb89f528516bf94eca295a39f165b2
