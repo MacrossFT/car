@@ -119,11 +119,11 @@ public class UserController {
     @PostMapping("select")
     @ResponseBody
     public PackResult<UserPO> select() {
-//        LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper<>();
 //        queryWrapper.eq(StringUtils.isNotEmpty(userPO.getName()), UserPO::getName, userPO.getName());
-//        queryWrapper.gt(UserPO::getId, 1);
+        queryWrapper.gt(UserPO::getId, 1);
 
-        List<UserPO> userPOS = userMapper.selectList(new LambdaQueryWrapper<>());
+        List<UserPO> userPOS = userMapper.selectList(queryWrapper);
         PackResult<UserPO> result = new PackResult<>();
         result.setDataList(userPOS);
         return result;
