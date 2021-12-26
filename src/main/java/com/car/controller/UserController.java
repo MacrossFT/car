@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -34,11 +36,18 @@ public class UserController {
      */
     @PostMapping("login")
     @ResponseBody
-    public PackResult<UserPO> login(HttpSession session, @RequestBody UserPO userPO) {
+    public PackResult<UserPO> login(HttpServletResponse response, HttpSession session, @RequestBody UserPO userPO) {
         LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper();
         queryWrapper.eq(UserPO::getName, userPO.getName());
         queryWrapper.eq(UserPO::getPassword, userPO.getPassword());
         UserPO user = userMapper.selectOne(queryWrapper);
+
+        // 创建一个 cookie对象
+        Cookie cookie = new Cookie("username", "Jovan");
+
+        //将cookie对象加入response响应
+        response.addCookie(cookie);
+
         if (user != null) {
             user.setPassword(null);
             session.setAttribute("user", user);
