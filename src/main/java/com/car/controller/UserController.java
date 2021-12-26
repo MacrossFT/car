@@ -2,6 +2,7 @@ package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.mapper.UserMapper;
 import com.car.po.UserPO;
@@ -66,12 +67,12 @@ public class UserController {
      */
     @PostMapping("add")
     @ResponseBody
-    public PackResult<Boolean> add(@RequestBody UserPO userPO) {
+    public PackResult<Boolean> add(@RequestBody UserPO userPO) throws BizException {
         LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userPO.getName()), UserPO::getName, userPO.getName());
         Integer count = userMapper.selectCount(queryWrapper);
         if (count > 0) {
-//            throw new BizException("用户名已存在");
+            throw new BizException("用户名已存在");
         }
 
         List<UserPO> userPOS = userMapper.selectList(queryWrapper);
