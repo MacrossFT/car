@@ -1,10 +1,12 @@
 package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
+import com.car.dto.UserRespDTO;
 import com.car.mapper.UserMapper;
 import com.car.po.UserPO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -67,6 +70,9 @@ public class UserController {
     @ResponseBody
     private PackResult<UserPO> getUserInfo() {
         UserPO user = UserContextInfo.getInstance().getUser();
+        UserRespDTO dto = new UserRespDTO();
+        dto.setName(user.getName());
+        dto.setRoles(Collections.singletonList(user.getPermission()));
         return new PackResult<>(user);
     }
 
