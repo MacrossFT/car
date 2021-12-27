@@ -68,12 +68,12 @@ public class UserController {
      */
     @RequestMapping("getUserInfo")
     @ResponseBody
-    private PackResult<UserPO> getUserInfo() {
+    private PackResult<UserRespDTO> getUserInfo() {
         UserPO user = UserContextInfo.getInstance().getUser();
         UserRespDTO dto = new UserRespDTO();
         dto.setName(user.getName());
         dto.setRoles(Collections.singletonList(user.getPermission()));
-        return new PackResult<>(user);
+        return new PackResult<>(dto);
     }
 
 
