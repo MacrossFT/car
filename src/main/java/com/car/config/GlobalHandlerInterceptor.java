@@ -19,6 +19,10 @@ public class GlobalHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        公共处理
+        if ("OPTIONS".equals(request.getMethod().toUpperCase())) {
+            return true;
+        }
+
         Object user = request.getSession().getAttribute("user");
         if (user == null) {
             writeResult(response);
