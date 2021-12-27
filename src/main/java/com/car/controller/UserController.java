@@ -84,11 +84,9 @@ public class UserController {
      * @return
      */
     @RequestMapping("logout")
-    public ModelAndView logout(HttpSession session) {
+    public PackResult<Boolean> logout(HttpSession session) {
         session.removeAttribute("user");
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("login.html");
-        return mv;
+        return new PackResult<>();
     }
 
     /**
