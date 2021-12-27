@@ -1,7 +1,6 @@
 package com.car.common;
 
-import lombok.Data;
-
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,8 +8,7 @@ import java.util.List;
  *
  * @param <T>
  */
-@Data
-public class PackResult<T> {
+public class PackResult<T> implements Serializable {
 
     /**
      * 成功标志
@@ -54,4 +52,35 @@ public class PackResult<T> {
         return packResult;
     }
 
+    public Boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public List<T> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<T> dataList) {
+        this.dataList = dataList;
+    }
 }
