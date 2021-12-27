@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
         return PackResult.fail(e.getMessage());
     }
 
-    @ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(Throwable.class)
     @ResponseBody
     public PackResult errorHandler(Exception e) {
         System.out.print(e);
