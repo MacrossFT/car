@@ -44,19 +44,11 @@ public class UserController {
         queryWrapper.eq(UserPO::getName, userPO.getName());
         queryWrapper.eq(UserPO::getPassword, userPO.getPassword());
         UserPO user = userMapper.selectOne(queryWrapper);
-
-        // 创建一个 cookie对象
-        Cookie cookie = new Cookie("username", "Jovan");
-
-        //将cookie对象加入response响应
-        response.addCookie(cookie);
-
         if (user != null) {
             user.setPassword(null);
             session.setAttribute("user", user);
             return new PackResult<>(user);
         } else {
-//            throw new BizException("用户名或密码错误，请稍后再试");
             return new PackResult<>(false, "用户名或密码错误，请稍后再试");
         }
     }
@@ -97,7 +89,7 @@ public class UserController {
      */
     @PostMapping("add")
     @ResponseBody
-    public PackResult<Boolean> add(@RequestBody UserPO userPO) throws BizException {
+    public PackResult<Boolean> add(@RequestBody UserPO userPO) {
         LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(StringUtils.isNotEmpty(userPO.getName()), UserPO::getName, userPO.getName());
         Integer count = userMapper.selectCount(queryWrapper);

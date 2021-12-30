@@ -1,15 +1,19 @@
 package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
 import com.car.mapper.CarMapper;
+import com.car.mapper.InventoryMapper;
 import com.car.mapper.OrderMapper;
 import com.car.mapper.UserMapper;
 import com.car.po.CarPO;
+import com.car.po.InventoryPO;
 import com.car.po.OrderPO;
 import com.car.po.UserPO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +31,8 @@ public class OrderController {
     private CarMapper carMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private InventoryMapper inventoryMapper;
 
     /**
      * 订单管理界面展示  查询订单
@@ -49,10 +55,18 @@ public class OrderController {
      */
     @PostMapping("buyCar")
     @ResponseBody
+    @Transactional(rollbackFor = Throwable.class)
     public PackResult<OrderPO> buyCar(@RequestBody Long carId) {
-        LambdaQueryWrapper<OrderPO> queryWrapper = new LambdaQueryWrapper<>();
-
         CarPO carPO = carMapper.selectById(carId);
+
+        InventoryPO inventoryPO = inventoryMapper.selectById(carId);
+
+        if (inventoryPO.getNumber() < 1) {
+            throw new BizException("汽车数量小鱼0，请去预定");
+        }
+        inventoryPO.setNumber(inventoryPO.getNumber() - 1);
+        inventoryMapper.updateById(inventoryPO);
+
         UserPO userPO = userMapper.selectById(UserContextInfo.getInstance().getUserId());
 
         OrderPO orderPO = new OrderPO();
@@ -61,7 +75,7 @@ public class OrderController {
         orderPO.setUserId(UserContextInfo.getInstance().getUserId());
         orderPO.setUserName(userPO.getName());
         orderPO.setPayStatus("已支付");
-        orderPO.setTotalAmount(carPO.getAmount());
+        orderPO.setTotalAmount(inventoryPO.getAmount());
 
         orderMapper.insert(orderPO);
         return new PackResult<>();
@@ -75,8 +89,13 @@ public class OrderController {
      */
     @PostMapping("reserveCar")
     @ResponseBody
+    @Transactional(rollbackFor = Throwable.class)
     public PackResult<OrderPO> reserveCar(@RequestBody Long carId) {
         CarPO carPO = carMapper.selectById(carId);
+        InventoryPO inventoryPO = inventoryMapper.selectById(carId);
+        if (inventoryPO.getNumber() > 0) {
+            throw new BizException("汽车数量大于0，请直接购买");
+        }
         UserPO userPO = userMapper.selectById(UserContextInfo.getInstance().getUserId());
 
         OrderPO orderPO = new OrderPO();
@@ -85,7 +104,7 @@ public class OrderController {
         orderPO.setUserId(UserContextInfo.getInstance().getUserId());
         orderPO.setUserName(userPO.getName());
         orderPO.setPayStatus("已预定");
-        orderPO.setTotalAmount(carPO.getAmount());
+        orderPO.setTotalAmount(inventoryPO.getAmount());
 
         orderMapper.insert(orderPO);
         return new PackResult<>();
@@ -111,12 +130,21 @@ public class OrderController {
      */
     @PostMapping("payFinal")
     @ResponseBody
+    @Transactional(rollbackFor = Throwable.class)
     public PackResult<String> payFinal(@RequestBody Long orderId) {
         OrderPO orderPO = orderMapper.selectById(orderId);
-
+        InventoryPO inventoryPO = inventoryMapper.selectById(orderPO.getCarId());
+        CarPO carPO = carMapper.selectById(orderPO.getCarId());
         if ("已支付".equals(orderPO.getPayStatus())) {
             PackResult.fail("订单已经支付，无需再次支付");
         }
+
+        if (inventoryPO.getNumber() < 1) {
+            throw new BizException(carPO.getName() + "汽车数量不足，请稍后再试");
+        }
+
+        inventoryPO.setNumber(inventoryPO.getNumber() - 1);
+        inventoryMapper.updateById(inventoryPO);
 
         orderPO.setPayStatus("已支付");
         orderMapper.updateById(orderPO);

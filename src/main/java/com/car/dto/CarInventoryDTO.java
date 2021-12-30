@@ -15,7 +15,7 @@ public class CarInventoryDTO {
     /**
      * 车辆id
      */
-    private int id;
+    private Long id;
 
     public Integer getNumber() {
         return number;
@@ -33,11 +33,11 @@ public class CarInventoryDTO {
         this.amount = amount;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

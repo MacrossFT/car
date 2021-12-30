@@ -12,21 +12,11 @@ public class CarPO {
     private String name;
 
     /**
-     * 数量
-     */
-    private Integer number;
-
-    /**
-     * 价格
-     */
-    private String amount;
-
-    /**
      * 车辆描述信息
      */
     private String remark;
 
-    private int id;
+    private Long id;
 
     public String getName() {
         return name;
@@ -36,21 +26,6 @@ public class CarPO {
         this.name = name;
     }
 
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
 
     public String getRemark() {
         return remark;
@@ -60,11 +35,11 @@ public class CarPO {
         this.remark = remark;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

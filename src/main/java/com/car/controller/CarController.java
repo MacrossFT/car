@@ -3,8 +3,11 @@ package com.car.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.car.common.PackResult;
 import com.car.mapper.CarMapper;
+import com.car.mapper.InventoryMapper;
 import com.car.po.CarPO;
+import com.car.po.InventoryPO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +21,8 @@ public class CarController {
 
     @Autowired
     private CarMapper carMapper;
+    @Autowired
+    private InventoryMapper inventoryMapper;
 
     /**
      * 新增汽车 只传name和remark
@@ -26,8 +31,12 @@ public class CarController {
      */
     @PostMapping("add")
     @ResponseBody
+    @Transactional(rollbackFor = Throwable.class)
     public PackResult<Boolean> add(@RequestBody CarPO carPO) {
-        carPO.setNumber(0);
+        InventoryPO inventoryPO = new InventoryPO();
+        inventoryPO.setNumber(0);
+
+        inventoryMapper.insert(inventoryPO);
         carMapper.insert(carPO);
         return new PackResult<>();
     }
@@ -39,8 +48,10 @@ public class CarController {
      */
     @PostMapping("delete")
     @ResponseBody
+    @Transactional(rollbackFor = Throwable.class)
     public PackResult<Boolean> delete(@RequestBody Long id) {
         carMapper.deleteById(id);
+        inventoryMapper.deleteById(id);
         return new PackResult<>();
     }
 
@@ -70,8 +81,6 @@ public class CarController {
     @ResponseBody
     public PackResult<CarPO> select() {
         LambdaQueryWrapper<CarPO> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.eq(StringUtils.isNotEmpty(userPO.getName()), UserPO::getName, userPO.getName());
-//        queryWrapper.gt(CarPO::getId, 1);
 
         List<CarPO> userPOS = carMapper.selectList(queryWrapper);
         PackResult<CarPO> result = new PackResult<>();
