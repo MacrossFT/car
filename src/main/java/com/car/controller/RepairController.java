@@ -64,16 +64,15 @@ public class RepairController {
 
     /**
      * 提交售后评价
-     * @param evaluate 售后评价
-     * @param repairId  售后订单ID
+     * 只需穿 id 和 evaluate
      * @return
      */
     @PostMapping("evaluate")
     @ResponseBody
-    private PackResult<RepairPO> evaluate(@RequestBody String evaluate, @RequestBody Long repairId) {
-        RepairPO repairPO = repairMapper.selectById(repairId);
-        repairPO.setEvaluate(evaluate);
-        repairMapper.updateById(repairPO);
+    private PackResult<RepairPO> evaluate(@RequestBody RepairPO repairPO) {
+        RepairPO repairPO1 = repairMapper.selectById(repairPO.getId());
+        repairPO.setEvaluate(repairPO.getEvaluate());
+        repairMapper.updateById(repairPO1);
         return new PackResult<>();
     }
 
