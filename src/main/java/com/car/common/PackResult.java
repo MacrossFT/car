@@ -21,6 +21,11 @@ public class PackResult<T> implements Serializable {
     private String message;
 
     /**
+     * 错误码
+     */
+    private String code = "200";
+
+    /**
      * 数据
      */
     private T data;
@@ -82,5 +87,13 @@ public class PackResult<T> implements Serializable {
 
     public void setDataList(List<T> dataList) {
         this.dataList = dataList;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

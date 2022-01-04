@@ -45,6 +45,7 @@ public class GlobalHandlerInterceptor implements HandlerInterceptor {
         PackResult result = new PackResult();
         result.setSuccess(false);
         result.setMessage("请先登录");
+        result.setCode("10001");
 
         resp.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         resp.setCharacterEncoding("UTF-8");
