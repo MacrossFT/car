@@ -95,6 +95,7 @@ public class CarController {
             InventoryPO inventoryPO = inventoryMapper.selectById(carPO.getId());
             carDTO.setNumber(inventoryPO.getNumber());
             carDTO.setAmount(inventoryPO.getAmount());
+            carDTOList.add(carDTO);
         }
 
 
