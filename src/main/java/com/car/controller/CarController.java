@@ -89,7 +89,7 @@ public class CarController {
         List<CarDTO> carDTOList = new ArrayList<>();
         for (CarPO carPO : carPOList) {
             CarDTO carDTO = new CarDTO();
-            carDTO.setId(carDTO.getId());
+            carDTO.setId(carPO.getId());
             carDTO.setName(carPO.getName());
             carDTO.setRemark(carPO.getRemark());
             InventoryPO inventoryPO = inventoryMapper.selectById(carPO.getId());
