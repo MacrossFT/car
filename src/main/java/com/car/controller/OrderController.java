@@ -85,22 +85,22 @@ public class OrderController {
 
     /**
      * 预定汽车
-     * @param carId
+     * @param dto
      * @return
      */
     @PostMapping("reserveCar")
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
-    public PackResult<OrderPO> reserveCar(@RequestBody Long carId) {
-        CarPO carPO = carMapper.selectById(carId);
-        InventoryPO inventoryPO = inventoryMapper.selectById(carId);
+    public PackResult<OrderPO> reserveCar(@RequestBody OrderDTO dto) {
+        CarPO carPO = carMapper.selectById(dto.getCarId());
+        InventoryPO inventoryPO = inventoryMapper.selectById(dto.getCarId());
         if (inventoryPO.getNumber() > 0) {
             throw new BizException("汽车数量大于0，请直接购买");
         }
         UserPO userPO = userMapper.selectById(UserContextInfo.getInstance().getUserId());
 
         OrderPO orderPO = new OrderPO();
-        orderPO.setCarId(carId);
+        orderPO.setCarId(dto.getCarId());
         orderPO.setCarName(carPO.getName());
         orderPO.setUserId(UserContextInfo.getInstance().getUserId());
         orderPO.setUserName(userPO.getName());
