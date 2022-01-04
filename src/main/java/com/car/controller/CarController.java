@@ -35,7 +35,7 @@ public class CarController {
     public PackResult<Boolean> add(@RequestBody CarPO carPO) {
         InventoryPO inventoryPO = new InventoryPO();
         inventoryPO.setNumber(0);
-
+        inventoryPO.setName(carPO.getName());
         inventoryMapper.insert(inventoryPO);
         carMapper.insert(carPO);
         return new PackResult<>();

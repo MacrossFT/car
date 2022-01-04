@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
+import com.car.dto.OrderDTO;
 import com.car.mapper.CarMapper;
 import com.car.mapper.InventoryMapper;
 import com.car.mapper.OrderMapper;
@@ -56,13 +57,13 @@ public class OrderController {
     @PostMapping("buyCar")
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
-    public PackResult<OrderPO> buyCar(@RequestBody Long carId) {
-        CarPO carPO = carMapper.selectById(carId);
+    public PackResult<OrderPO> buyCar(@RequestBody OrderDTO dto) {
+        CarPO carPO = carMapper.selectById(dto.getCarId());
 
-        InventoryPO inventoryPO = inventoryMapper.selectById(carId);
+        InventoryPO inventoryPO = inventoryMapper.selectById(dto.getCarId());
 
         if (inventoryPO.getNumber() < 1) {
-            throw new BizException("汽车数量小鱼0，请去预定");
+            throw new BizException("汽车数量小于0，请去预定");
         }
         inventoryPO.setNumber(inventoryPO.getNumber() - 1);
         inventoryMapper.updateById(inventoryPO);
@@ -70,7 +71,7 @@ public class OrderController {
         UserPO userPO = userMapper.selectById(UserContextInfo.getInstance().getUserId());
 
         OrderPO orderPO = new OrderPO();
-        orderPO.setCarId(carId);
+        orderPO.setCarId(dto.getCarId());
         orderPO.setCarName(carPO.getName());
         orderPO.setUserId(UserContextInfo.getInstance().getUserId());
         orderPO.setUserName(userPO.getName());
@@ -131,8 +132,8 @@ public class OrderController {
     @PostMapping("payFinal")
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
-    public PackResult<String> payFinal(@RequestBody Long orderId) {
-        OrderPO orderPO = orderMapper.selectById(orderId);
+    public PackResult<String> payFinal(@RequestBody OrderDTO dto) {
+        OrderPO orderPO = orderMapper.selectById(dto.getOrderId());
         InventoryPO inventoryPO = inventoryMapper.selectById(orderPO.getCarId());
         CarPO carPO = carMapper.selectById(orderPO.getCarId());
         if ("已支付".equals(orderPO.getPayStatus())) {
