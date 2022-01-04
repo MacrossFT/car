@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("order")
-public class OrderPO {
-
-    private Long id;
+public class OrderPO  extends BasePO{
 
     /**
      * 用户名
@@ -38,14 +36,6 @@ public class OrderPO {
      */
     @TableField("payStatus")
     private String payStatus;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUserName() {
         return userName;

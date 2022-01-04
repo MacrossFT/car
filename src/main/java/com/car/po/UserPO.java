@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 
 @TableName("user")
-public class UserPO {
-
-    private Long id;
+public class UserPO  extends BasePO{
 
     /**
      * 用户名
@@ -37,14 +35,6 @@ public class UserPO {
      * 备注
      */
     private String remark;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

@@ -1,10 +1,9 @@
 package com.car.po;
 
-
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("car")
-public class CarPO {
+public class CarPO extends BasePO{
 
     /**
      * 名称
@@ -15,8 +14,6 @@ public class CarPO {
      * 车辆描述信息
      */
     private String remark;
-
-    private Long id;
 
     public String getName() {
         return name;
@@ -35,11 +32,4 @@ public class CarPO {
         this.remark = remark;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

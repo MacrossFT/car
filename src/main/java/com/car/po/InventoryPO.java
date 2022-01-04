@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("inventory")
-public class InventoryPO {
-
-    private Long id;
+public class InventoryPO extends BasePO{
 
     /**
      * 汽车名称
@@ -23,14 +21,6 @@ public class InventoryPO {
      * 价格
      */
     private String amount;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

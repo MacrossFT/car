@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("repair")
-public class RepairPO {
-
-    private Long id;
+public class RepairPO  extends BasePO{
 
     /**
      * 订单ID
@@ -47,14 +45,6 @@ public class RepairPO {
      * 评价
      */
     private String evaluate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getOrderId() {
         return orderId;
