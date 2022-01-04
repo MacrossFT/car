@@ -22,7 +22,7 @@ import java.util.List;
  * @menu 订单操作
  */
 @RestController
-@RequestMapping("car/carorder")
+@RequestMapping("car/order")
 public class OrderController {
 
     @Autowired

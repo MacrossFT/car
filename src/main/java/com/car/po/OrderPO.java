@@ -4,7 +4,7 @@ package com.car.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName("order")
+@TableName("carorder")
 public class OrderPO  extends BasePO{
 
     /**
