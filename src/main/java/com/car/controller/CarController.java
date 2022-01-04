@@ -2,6 +2,7 @@ package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.car.common.PackResult;
+import com.car.dto.CarDTO;
 import com.car.mapper.CarMapper;
 import com.car.mapper.InventoryMapper;
 import com.car.po.CarPO;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,12 +81,25 @@ public class CarController {
      */
     @RequestMapping("select")
     @ResponseBody
-    public PackResult<CarPO> select() {
+    public PackResult<CarDTO> select() {
         LambdaQueryWrapper<CarPO> queryWrapper = new LambdaQueryWrapper<>();
 
-        List<CarPO> userPOS = carMapper.selectList(queryWrapper);
-        PackResult<CarPO> result = new PackResult<>();
-        result.setDataList(userPOS);
+        List<CarPO> carPOList = carMapper.selectList(queryWrapper);
+
+        List<CarDTO> carDTOList = new ArrayList<>();
+        for (CarPO carPO : carPOList) {
+            CarDTO carDTO = new CarDTO();
+            carDTO.setId(carDTO.getId());
+            carDTO.setName(carPO.getName());
+            carDTO.setRemark(carPO.getRemark());
+            InventoryPO inventoryPO = inventoryMapper.selectById(carPO.getId());
+            carDTO.setNumber(inventoryPO.getNumber());
+            carDTO.setAmount(inventoryPO.getAmount());
+        }
+
+
+        PackResult<CarDTO> result = new PackResult<>();
+        result.setDataList(carDTOList);
         return result;
     }
 
