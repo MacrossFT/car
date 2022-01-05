@@ -85,14 +85,17 @@ public class RepairController {
     @ResponseBody
     public PackResult<Boolean> evaluate(@RequestBody RepairPO repairPO) {
         RepairPO repairPO1 = repairMapper.selectById(repairPO.getId());
-        repairPO.setEvaluate(repairPO.getEvaluate());
+        if (repairPO1.getDealStatus().equals("待处理")) {
+            throw new BizException("当前订单正在处理中");
+        }
+
+        repairPO1.setEvaluate(repairPO.getEvaluate());
         repairMapper.updateById(repairPO1);
         return new PackResult<>();
     }
 
     /**
-     * 提交售后评价
-     * 只需穿 id 和 evaluate
+     * 完成售后
      * @param repairPO
      * @return
      */
@@ -100,7 +103,7 @@ public class RepairController {
     @ResponseBody
     public PackResult<Boolean> complete(@RequestBody RepairPO repairPO) {
         RepairPO repairPO1 = repairMapper.selectById(repairPO.getId());
-        repairPO.setDealStatus("已完成");
+        repairPO1.setDealStatus("已完成");
         repairMapper.updateById(repairPO1);
         return new PackResult<>();
     }

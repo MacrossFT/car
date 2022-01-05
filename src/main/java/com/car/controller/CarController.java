@@ -72,6 +72,9 @@ public class CarController {
 
         carMapper.updateById(carPO1);
 
+        InventoryPO inventoryPO = inventoryMapper.selectById(carPO.getId());
+        inventoryPO.setName(carPO1.getName());
+        inventoryMapper.updateById(inventoryPO);
         return new PackResult<>();
     }
 
