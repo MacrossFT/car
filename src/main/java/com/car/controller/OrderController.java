@@ -1,6 +1,7 @@
 package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
@@ -97,6 +98,15 @@ public class OrderController {
         if (inventoryPO.getNumber() > 0) {
             throw new BizException("汽车数量大于0，请直接购买");
         }
+
+        LambdaQueryWrapper<OrderPO> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(OrderPO::getUserId, UserContextInfo.getInstance().getUserId());
+        queryWrapper.eq(OrderPO::getPayStatus, "已预定");
+        List<OrderPO> orderPOS = orderMapper.selectList(queryWrapper);
+        if (CollectionUtils.isNotEmpty(orderPOS)) {
+            throw new BizException("你有未支付的订单  请先支付后在进行预定");
+        }
+
         UserPO userPO = userMapper.selectById(UserContextInfo.getInstance().getUserId());
 
         OrderPO orderPO = new OrderPO();

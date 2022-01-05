@@ -1,6 +1,7 @@
 package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
@@ -52,6 +53,18 @@ public class RepairController {
     @ResponseBody
     public PackResult<RepairPO> add(@RequestBody RepairPO repairPO) {
         OrderPO orderPO = orderMapper.selectById(repairPO.getOrderId());
+        if (!orderPO.getPayStatus().equals("已支付")) {
+            throw new BizException("只有支付订单才能进行售后");
+        }
+
+        LambdaQueryWrapper<RepairPO> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(RepairPO::getOrderId, repairPO.getOrderId());
+        queryWrapper.eq(RepairPO::getDealStatus, repairPO.getDealStatus());
+        List<RepairPO> repairPOS = repairMapper.selectList(queryWrapper);
+        if (CollectionUtils.isNotEmpty(repairPOS)) {
+            throw new BizException("当前订单正在售后中");
+        }
+
         repairPO.setCarName(orderPO.getCarName());
         repairPO.setProblem(repairPO.getProblem());
         repairPO.setUserId(UserContextInfo.getInstance().getUserId());
@@ -73,6 +86,21 @@ public class RepairController {
     public PackResult<Boolean> evaluate(@RequestBody RepairPO repairPO) {
         RepairPO repairPO1 = repairMapper.selectById(repairPO.getId());
         repairPO.setEvaluate(repairPO.getEvaluate());
+        repairMapper.updateById(repairPO1);
+        return new PackResult<>();
+    }
+
+    /**
+     * 提交售后评价
+     * 只需穿 id 和 evaluate
+     * @param repairPO
+     * @return
+     */
+    @PostMapping("complete")
+    @ResponseBody
+    public PackResult<Boolean> complete(@RequestBody RepairPO repairPO) {
+        RepairPO repairPO1 = repairMapper.selectById(repairPO.getId());
+        repairPO.setDealStatus("已完成");
         repairMapper.updateById(repairPO1);
         return new PackResult<>();
     }

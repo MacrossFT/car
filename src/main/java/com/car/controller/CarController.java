@@ -51,9 +51,9 @@ public class CarController {
     @PostMapping("delete")
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
-    public PackResult<Boolean> delete(@RequestBody Long id) {
-        carMapper.deleteById(id);
-        inventoryMapper.deleteById(id);
+    public PackResult<Boolean> delete(@RequestBody CarPO carPO) {
+        carMapper.deleteById(carPO.getId());
+        inventoryMapper.deleteById(carPO.getId());
         return new PackResult<>();
     }
 
