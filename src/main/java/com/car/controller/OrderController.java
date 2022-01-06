@@ -59,6 +59,14 @@ public class OrderController {
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
     public PackResult<OrderPO> buyCar(@RequestBody OrderDTO dto) {
+        LambdaQueryWrapper<UserPO> queryWrapper = new LambdaQueryWrapper();
+        queryWrapper.eq(UserPO::getName, UserContextInfo.getInstance().getUserName());
+        queryWrapper.eq(UserPO::getPassword, dto.getPassword());
+        UserPO user = userMapper.selectOne(queryWrapper);
+        if (user == null) {
+            throw new BizException("密码输入错误,请重新输入");
+        }
+
         CarPO carPO = carMapper.selectById(dto.getCarId());
 
         InventoryPO inventoryPO = inventoryMapper.selectById(dto.getCarId());
@@ -143,6 +151,14 @@ public class OrderController {
     @ResponseBody
     @Transactional(rollbackFor = Throwable.class)
     public PackResult<String> payFinal(@RequestBody OrderDTO dto) {
+        LambdaQueryWrapper<UserPO> userPOLambdaQueryWrapper = new LambdaQueryWrapper();
+        userPOLambdaQueryWrapper.eq(UserPO::getName, UserContextInfo.getInstance().getUserName());
+        userPOLambdaQueryWrapper.eq(UserPO::getPassword, dto.getPassword());
+        UserPO user = userMapper.selectOne(userPOLambdaQueryWrapper);
+        if (user == null) {
+            throw new BizException("密码输入错误,请重新输入");
+        }
+
         OrderPO orderPO = orderMapper.selectById(dto.getOrderId());
         InventoryPO inventoryPO = inventoryMapper.selectById(orderPO.getCarId());
         CarPO carPO = carMapper.selectById(orderPO.getCarId());

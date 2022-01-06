@@ -6,6 +6,8 @@ public class OrderDTO {
 
     private Long orderId;
 
+    private String password;
+
     public Long getCarId() {
         return carId;
     }
@@ -20,5 +22,13 @@ public class OrderDTO {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
