@@ -2,6 +2,7 @@ package com.car.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.car.common.BizException;
 import com.car.common.PackResult;
 import com.car.common.UserContextInfo;
@@ -71,6 +72,10 @@ public class OrderController {
 
         InventoryPO inventoryPO = inventoryMapper.selectById(dto.getCarId());
 
+        if (StringUtils.isEmpty(inventoryPO.getAmount())) {
+            throw new BizException("汽车价格未发布，暂时无法购买");
+        }
+
         if (inventoryPO.getNumber() < 1) {
             throw new BizException("汽车数量小于0，请去预定");
         }
@@ -105,6 +110,9 @@ public class OrderController {
         InventoryPO inventoryPO = inventoryMapper.selectById(dto.getCarId());
         if (inventoryPO.getNumber() > 0) {
             throw new BizException("汽车数量大于0，请直接购买");
+        }
+        if (StringUtils.isEmpty(inventoryPO.getAmount())) {
+            throw new BizException("汽车价格未发布，暂时无法购买");
         }
 
         LambdaQueryWrapper<OrderPO> queryWrapper = new LambdaQueryWrapper<>();
